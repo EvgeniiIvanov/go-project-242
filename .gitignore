@@ -1,0 +1,7 @@
+# Go test binaries
+*.test
+
+# Temporary files
+*.swp
+*.swo
+.DS_Store
