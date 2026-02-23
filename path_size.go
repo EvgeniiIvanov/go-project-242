@@ -1,6 +1,7 @@
 package goproject242
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -36,4 +37,33 @@ func GetSize(p string) (int64, error) {
 	}
 	return size, nil
 
+}
+
+func FormatSize(size int64, flag bool) string {
+	// If flag is false, return size as is
+	if !flag {
+		return fmt.Sprintf("%vB", size)
+	}
+	// Else
+	// Create array of prefixes
+	prefixes := []string{"", "K", "M", "G", "T", "P", "E"}
+	// Create array of sizes
+	sizes := []int64{
+		1,
+		1 << 10, // 1024
+		1 << 20, // 1048576
+		1 << 30, // 1073741824
+		1 << 40, // 1099511627776
+		1 << 50, // 1125899906842624
+		1 << 60, // 1152921504606846976
+	}
+
+	// Compare size with values of sizes and add corresponding prefix
+	for i := len(sizes) - 1; i >= 0; i-- {
+		if size >= sizes[i] {
+			return fmt.Sprintf("%.1f%sB", float64(size)/float64(sizes[i]), prefixes[i])
+		}
+	}
+	// If size is less than 1 (e.g., empty file), return size as is
+	return fmt.Sprintf("%vB", size)
 }
