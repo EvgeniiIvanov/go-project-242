@@ -1,0 +1,1 @@
+It is hidden file to test GetSize function with specific flag

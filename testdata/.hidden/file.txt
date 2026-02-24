@@ -1,0 +1,1 @@
+Regular file in hidden directory to test GetSize function

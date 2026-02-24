@@ -22,9 +22,15 @@ func main() {
 				Value:   false,
 				Usage:   "human-readable sizes (auto-select unit)",
 			},
+			&cli.BoolFlag{
+				Name:    "all",
+				Aliases: []string{"a"},
+				Value:   false,
+				Usage:   "include hidden files and directories",
+			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			size, err := goproject242.GetSize(cmd.Args().Get(0))
+			size, err := goproject242.GetSize(cmd.Args().Get(0), cmd.Bool("all"))
 			if err != nil {
 				return err
 			}

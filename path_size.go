@@ -5,10 +5,16 @@ import (
 	"os"
 )
 
-func GetSize(p string) (int64, error) {
+func GetSize(p string, all bool) (int64, error) {
 	object, err := os.Lstat(p)
 	if err != nil {
 		return 0, err
+	}
+	if !all {
+		// skip hidden files started with .
+		if object.Name()[0] == '.' {
+			return 0, nil
+		}
 	}
 	if !object.IsDir() {
 		// calculate size of object if it is not a dir
@@ -28,7 +34,7 @@ func GetSize(p string) (int64, error) {
 			continue
 		}
 		// calculate size of file and add to total size
-		fileSize, err := GetSize(p + "/" + file.Name())
+		fileSize, err := GetSize(p+"/"+file.Name(), all) // What if we use Windows?
 		if err != nil {
 			// return error if we can't get size even for one file in dir
 			return 0, err
@@ -39,9 +45,9 @@ func GetSize(p string) (int64, error) {
 
 }
 
-func FormatSize(size int64, flag bool) string {
-	// If flag is false, return size as is
-	if !flag {
+func FormatSize(size int64, human bool) string {
+	// If human is false, return size as is
+	if !human {
 		return fmt.Sprintf("%vB", size)
 	}
 	// Else

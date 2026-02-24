@@ -10,7 +10,7 @@ import (
 func TestGetSizeFile(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/hello.txt")
+	size, err := GetSize("./testdata/hello.txt", false)
 
 	a.NoError(err)
 	a.Equal(int64(14), size)
@@ -20,7 +20,7 @@ func TestGetSizeFile(t *testing.T) {
 func TestGetSizeDir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata")
+	size, err := GetSize("./testdata", false)
 
 	a.NoError(err)
 	a.Equal(int64(34), size)
@@ -30,7 +30,7 @@ func TestGetSizeDir(t *testing.T) {
 func TestGetSizeEmptyFile(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/empty.txt")
+	size, err := GetSize("./testdata/empty.txt", false)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -40,7 +40,7 @@ func TestGetSizeEmptyFile(t *testing.T) {
 func TestGetSizeNonExistent(t *testing.T) {
 	a := assert.New(t)
 
-	_, err := GetSize("./testdata/non-existent.txt")
+	_, err := GetSize("./testdata/non-existent.txt", false)
 
 	a.Error(err)
 }
@@ -49,7 +49,7 @@ func TestGetSizeNonExistent(t *testing.T) {
 func TestGetSizeSubdir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/subdir")
+	size, err := GetSize("./testdata/subdir", false)
 
 	a.NoError(err)
 	a.Equal(int64(21), size)
@@ -59,7 +59,7 @@ func TestGetSizeSubdir(t *testing.T) {
 func TestGetSizeEmptySubdir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/subdir/empty")
+	size, err := GetSize("./testdata/subdir/empty", false)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -69,10 +69,50 @@ func TestGetSizeEmptySubdir(t *testing.T) {
 func TestGetSizeLink(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/goodbye.link")
+	size, err := GetSize("./testdata/goodbye.link", false)
 
 	a.NoError(err)
 	a.Equal(int64(20), size)
+}
+
+// Test GetSize for hidden file
+func TestGetSizeHiddenFile(t *testing.T) {
+	a := assert.New(t)
+
+	size, err := GetSize("./testdata/.hidden.txt", false)
+
+	a.NoError(err)
+	a.Equal(int64(0), size)
+}
+
+// Test GetSize for hidden file with all flag
+func TestGetSizeHiddenFileAll(t *testing.T) {
+	a := assert.New(t)
+
+	size, err := GetSize("./testdata/.hidden.txt", true)
+
+	a.NoError(err)
+	a.Equal(int64(62), size)
+}
+
+// Test GetSize for hidden dir
+func TestGetSizeHiddenDir(t *testing.T) {
+	a := assert.New(t)
+
+	size, err := GetSize("./testdata/.hidden", false)
+
+	a.NoError(err)
+	a.Equal(int64(0), size)
+}
+
+// Test GetSize for hidden dir with all flag
+func TestGetSizeHiddenDirAll(t *testing.T) {
+	a := assert.New(t)
+
+	size, err := GetSize("./testdata/.hidden", true)
+
+	a.NoError(err)
+	a.Equal(int64(115), size)
 }
 
 // Test FormatSize for bytes
