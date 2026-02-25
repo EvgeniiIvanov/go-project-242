@@ -36,19 +36,20 @@ func main() {
 			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			options := code.Options{
-				Recursive: cmd.Bool("recursive"),
-				All:       cmd.Bool("all"),
-			}
-			size, err := code.GetPathSize(cmd.Args().Get(0), options)
+			size, err := code.GetPathSize(
+				cmd.Args().Get(0),
+				cmd.Bool("all"),
+				cmd.Bool("recursive"),
+				cmd.Bool("human"),
+			)
 			if err != nil {
 				return err
 			}
 			if cmd.Bool("human") {
-				fmt.Printf("%v\\%s\n", code.FormatSize(size, true), cmd.Args().Get(0))
+				fmt.Printf("%v\t%s\n", code.FormatSize(size, true), cmd.Args().Get(0))
 				return nil
 			}
-			fmt.Printf("%vB\\%s\n", size, cmd.Args().Get(0))
+			fmt.Printf("%vB\t%s\n", size, cmd.Args().Get(0))
 			return nil
 		},
 	}

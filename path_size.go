@@ -6,19 +6,14 @@ import (
 	"path/filepath"
 )
 
-type Options struct {
-	Recursive bool
-	All       bool
-}
-
-func GetPathSize(p string, o Options) (int64, error) {
-	object, err := os.Lstat(p)
+func GetPathSize(path string, all, recursive, human bool) (int64, error) {
+	object, err := os.Lstat(path)
 	if err != nil {
 		return 0, err
 	}
-	if !o.All {
-		// skip hidden files started with .
-		if object.Name()[0] == '.' {
+	if !all {
+		// skip hidden files started with ".", and files with name length <= 0
+		if len(object.Name()) > 0 && object.Name()[0] == '.' {
 			return 0, nil
 		}
 	}
@@ -28,17 +23,17 @@ func GetPathSize(p string, o Options) (int64, error) {
 		return object.Size(), nil
 	}
 	// calculate size of files in dir
-	files, err := os.ReadDir(p)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		return 0, err
 	}
 	size := int64(0)
 	for _, file := range files {
-		if file.IsDir() && !o.Recursive {
+		if file.IsDir() && !recursive {
 			continue
 		}
 		// calculate size of file/dir and add to total size
-		fileSize, err := GetPathSize(filepath.Join(p, file.Name()), o)
+		fileSize, err := GetPathSize(filepath.Join(path, file.Name()), all, recursive, human)
 		if err != nil {
 			// return error if we can't get size even for one file in dir
 			return 0, err
