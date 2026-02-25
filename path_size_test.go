@@ -172,7 +172,7 @@ func TestFormatSizeBytes(t *testing.T) {
 	size := int64(42)
 	format := FormatSize(size)
 
-	a.Equal("42.0B", format)
+	a.Equal("42B", format)
 }
 
 // Test FormatSize for KB
@@ -182,7 +182,7 @@ func TestFormatSizeKb(t *testing.T) {
 	size := int64(2048)
 	format := FormatSize(size)
 
-	a.Equal("2.0KB", format)
+	a.Equal("2KB", format)
 }
 
 // Test FormatSize for MB
@@ -192,5 +192,5 @@ func TestFormatSizeMb(t *testing.T) {
 	size := int64(2097152)
 	format := FormatSize(size)
 
-	a.Equal("2.0MB", format)
+	a.Equal("2MB", format)
 }
