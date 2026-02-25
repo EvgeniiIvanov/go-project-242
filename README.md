@@ -40,7 +40,7 @@ sudo rm /usr/local/bin/hexlet-path-size
 
 ## Asciinema demo
 
-[![asciicast](https://asciinema.org/a/nQ7wQ41loDFS2Ciu.svg)](https://asciinema.org/a/nQ7wQ41loDFS2Ciu)
+[![asciicast](https://asciinema.org/a/797330.svg)](https://asciinema.org/a/797330)
 
 ## Development part
 
