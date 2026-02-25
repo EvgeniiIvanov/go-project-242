@@ -56,10 +56,9 @@ func getSize(path string, all, recursive bool) (int64, error) {
 
 func FormatSize(size int64) string {
 	// Create array of prefixes
-	prefixes := []string{"", "K", "M", "G", "T", "P", "E"}
+	prefixes := []string{"K", "M", "G", "T", "P", "E"}
 	// Create array of sizes
 	sizes := []int64{
-		1,
 		1 << 10, // 1024
 		1 << 20, // 1048576
 		1 << 30, // 1073741824
@@ -74,6 +73,6 @@ func FormatSize(size int64) string {
 			return fmt.Sprintf("%.1f%sB", float64(size)/float64(sizes[i]), prefixes[i])
 		}
 	}
-	// If size is less than 1 (e.g., empty file), return size as is
+	// If size is less than 1024 bytes, return size as is
 	return fmt.Sprintf("%vB", size)
 }
