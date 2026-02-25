@@ -11,7 +11,7 @@ type Options struct {
 	All       bool
 }
 
-func GetSize(p string, o Options) (int64, error) {
+func GetPathSize(p string, o Options) (int64, error) {
 	object, err := os.Lstat(p)
 	if err != nil {
 		return 0, err
@@ -38,7 +38,7 @@ func GetSize(p string, o Options) (int64, error) {
 			continue
 		}
 		// calculate size of file/dir and add to total size
-		fileSize, err := GetSize(filepath.Join(p, file.Name()), o)
+		fileSize, err := GetPathSize(filepath.Join(p, file.Name()), o)
 		if err != nil {
 			// return error if we can't get size even for one file in dir
 			return 0, err

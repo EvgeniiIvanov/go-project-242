@@ -40,7 +40,7 @@ func main() {
 				Recursive: cmd.Bool("recursive"),
 				All:       cmd.Bool("all"),
 			}
-			size, err := code.GetSize(cmd.Args().Get(0), options)
+			size, err := code.GetPathSize(cmd.Args().Get(0), options)
 			if err != nil {
 				return err
 			}
