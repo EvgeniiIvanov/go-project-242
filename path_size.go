@@ -3,14 +3,20 @@ package goproject242
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
-func GetSize(p string, all bool) (int64, error) {
+type Options struct {
+	Recursive bool
+	All       bool
+}
+
+func GetSize(p string, o Options) (int64, error) {
 	object, err := os.Lstat(p)
 	if err != nil {
 		return 0, err
 	}
-	if !all {
+	if !o.All {
 		// skip hidden files started with .
 		if object.Name()[0] == '.' {
 			return 0, nil
@@ -26,15 +32,13 @@ func GetSize(p string, all bool) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	//var size int64
 	size := int64(0)
 	for _, file := range files {
-		// skip if this is dir
-		if file.IsDir() {
+		if file.IsDir() && !o.Recursive {
 			continue
 		}
-		// calculate size of file and add to total size
-		fileSize, err := GetSize(p+"/"+file.Name(), all) // What if we use Windows?
+		// calculate size of file/dir and add to total size
+		fileSize, err := GetSize(filepath.Join(p, file.Name()), o)
 		if err != nil {
 			// return error if we can't get size even for one file in dir
 			return 0, err

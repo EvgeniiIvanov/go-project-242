@@ -10,7 +10,9 @@ import (
 func TestGetSizeFile(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/hello.txt", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/hello.txt", o)
 
 	a.NoError(err)
 	a.Equal(int64(14), size)
@@ -20,7 +22,9 @@ func TestGetSizeFile(t *testing.T) {
 func TestGetSizeDir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata", o)
 
 	a.NoError(err)
 	a.Equal(int64(34), size)
@@ -30,7 +34,9 @@ func TestGetSizeDir(t *testing.T) {
 func TestGetSizeEmptyFile(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/empty.txt", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/empty.txt", o)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -40,7 +46,9 @@ func TestGetSizeEmptyFile(t *testing.T) {
 func TestGetSizeNonExistent(t *testing.T) {
 	a := assert.New(t)
 
-	_, err := GetSize("./testdata/non-existent.txt", false)
+	o := Options{Recursive: false, All: false}
+
+	_, err := GetSize("./testdata/non-existent.txt", o)
 
 	a.Error(err)
 }
@@ -49,7 +57,9 @@ func TestGetSizeNonExistent(t *testing.T) {
 func TestGetSizeSubdir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/subdir", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/subdir", o)
 
 	a.NoError(err)
 	a.Equal(int64(21), size)
@@ -59,7 +69,9 @@ func TestGetSizeSubdir(t *testing.T) {
 func TestGetSizeEmptySubdir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/subdir/empty", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/subdir/empty", o)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -69,7 +81,9 @@ func TestGetSizeEmptySubdir(t *testing.T) {
 func TestGetSizeLink(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/goodbye.link", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/goodbye.link", o)
 
 	a.NoError(err)
 	a.Equal(int64(20), size)
@@ -79,7 +93,9 @@ func TestGetSizeLink(t *testing.T) {
 func TestGetSizeHiddenFile(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/.hidden.txt", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/.hidden.txt", o)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -89,7 +105,9 @@ func TestGetSizeHiddenFile(t *testing.T) {
 func TestGetSizeHiddenFileAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/.hidden.txt", true)
+	o := Options{Recursive: false, All: true}
+
+	size, err := GetSize("./testdata/.hidden.txt", o)
 
 	a.NoError(err)
 	a.Equal(int64(62), size)
@@ -99,7 +117,9 @@ func TestGetSizeHiddenFileAll(t *testing.T) {
 func TestGetSizeHiddenDir(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/.hidden", false)
+	o := Options{Recursive: false, All: false}
+
+	size, err := GetSize("./testdata/.hidden", o)
 
 	a.NoError(err)
 	a.Equal(int64(0), size)
@@ -109,7 +129,69 @@ func TestGetSizeHiddenDir(t *testing.T) {
 func TestGetSizeHiddenDirAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetSize("./testdata/.hidden", true)
+	o := Options{Recursive: false, All: true}
+
+	size, err := GetSize("./testdata/.hidden", o)
+
+	a.NoError(err)
+	a.Equal(int64(115), size)
+}
+
+// Test GetSize for dir recursively
+func TestGetSizeDirRecursive(t *testing.T) {
+	a := assert.New(t)
+
+	o := Options{Recursive: true, All: false}
+
+	size, err := GetSize("./testdata", o)
+
+	a.NoError(err)
+	a.Equal(int64(55), size)
+}
+
+// Test GetSize for dir recursively with all flag
+func TestGetSizeDirRecursiveAll(t *testing.T) {
+	a := assert.New(t)
+
+	o := Options{Recursive: true, All: true}
+
+	size, err := GetSize("./testdata", o)
+
+	a.NoError(err)
+	a.Equal(int64(232), size)
+}
+
+// Test GetSize for empty dir recursively
+func TestGetSizeEmptyDirRecursive(t *testing.T) {
+	a := assert.New(t)
+
+	o := Options{Recursive: true, All: false}
+
+	size, err := GetSize("./testdata/empty", o)
+
+	a.NoError(err)
+	a.Equal(int64(0), size)
+}
+
+// Test GetSize for hidden dir recursively
+func TestGetSizeHiddenDirRecursive(t *testing.T) {
+	a := assert.New(t)
+
+	o := Options{Recursive: true, All: false}
+
+	size, err := GetSize("./testdata/.hidden", o)
+
+	a.NoError(err)
+	a.Equal(int64(0), size)
+}
+
+// Test GetSize for hidden dir recursively with all flag
+func TestGetSizeHiddenDirRecursiveAll(t *testing.T) {
+	a := assert.New(t)
+
+	o := Options{Recursive: true, All: true}
+
+	size, err := GetSize("./testdata/.hidden", o)
 
 	a.NoError(err)
 	a.Equal(int64(115), size)
