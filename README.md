@@ -38,6 +38,10 @@ hexlet-path-size -r -a -H ~/Documents
 sudo rm /usr/local/bin/hexlet-path-size
 ```
 
+## Asciinema demo
+
+[![asciicast](https://asciinema.org/a/2JBxNVR6sJqzsHont5Irt3c7I.svg)](https://asciinema.org/a/2JBxNVR6sJqzsHont5Irt3c7I)
+
 ## Dev part
 
 ### How to lint
