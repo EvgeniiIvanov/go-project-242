@@ -71,7 +71,7 @@ func FormatSize(size int64) string {
 	// Compare size with values of sizes and add corresponding prefix
 	for i := len(sizes) - 1; i >= 0; i-- {
 		if size >= sizes[i] {
-			return fmt.Sprintf("%.0f%sB", float64(size)/float64(sizes[i]), prefixes[i])
+			return fmt.Sprintf("%.1f%sB", float64(size)/float64(sizes[i]), prefixes[i])
 		}
 	}
 	// If size is less than 1 (e.g., empty file), return size as is
