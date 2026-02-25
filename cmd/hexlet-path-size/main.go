@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	goproject242 "code"
+	"code"
 
 	"github.com/urfave/cli/v3"
 )
@@ -36,16 +36,16 @@ func main() {
 			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
-			options := goproject242.Options{
+			options := code.Options{
 				Recursive: cmd.Bool("recursive"),
 				All:       cmd.Bool("all"),
 			}
-			size, err := goproject242.GetSize(cmd.Args().Get(0), options)
+			size, err := code.GetSize(cmd.Args().Get(0), options)
 			if err != nil {
 				return err
 			}
 			if cmd.Bool("human") {
-				fmt.Printf("%v\\%s\n", goproject242.FormatSize(size, true), cmd.Args().Get(0))
+				fmt.Printf("%v\\%s\n", code.FormatSize(size, true), cmd.Args().Get(0))
 				return nil
 			}
 			fmt.Printf("%vB\\%s\n", size, cmd.Args().Get(0))
