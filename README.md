@@ -32,7 +32,7 @@ hexlet-path-size -r -H /var/log
 hexlet-path-size -r -a -H ~/Documents
 ```
 
-### How to delete
+### How to uninstall
 
 ```bash
 sudo rm /usr/local/bin/hexlet-path-size
@@ -42,7 +42,34 @@ sudo rm /usr/local/bin/hexlet-path-size
 
 [![asciicast](https://asciinema.org/a/nQ7wQ41loDFS2Ciu.svg)](https://asciinema.org/a/nQ7wQ41loDFS2Ciu)
 
-## Dev part
+## Development part
+
+### Project structure
+
+```bash
+.
+├── Makefile
+├── cmd
+│   └── hexlet-path-size
+│       └── main.go
+├── go.mod
+├── go.sum
+├── path_size.go
+├── path_size_test.go
+└── testdata
+    ├── .hidden
+    │   ├── .hidden.txt
+    │   └── file.txt
+    ├── empty
+    |── empty.txt
+    ├── goodbye.link
+    ├── hello.txt
+    ├── subdir
+    │   ├── empty
+    │   ├── goodby.txt
+    │   └── whatsup.txt
+    └── .hidden.txt
+```
 
 ### How to lint
 
@@ -55,9 +82,3 @@ Perform `make test`
 ### How to build
 
 Perform `make build`
-
-### How to run
-
-```bash
-./bin/hexlet-path-size <path>
-```

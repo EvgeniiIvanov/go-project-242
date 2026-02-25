@@ -1,3 +1,6 @@
+# Go binaries
+bin/
+
 # Go test binaries
 *.test
 
