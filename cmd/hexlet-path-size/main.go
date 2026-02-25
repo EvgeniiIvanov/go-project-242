@@ -45,11 +45,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			if cmd.Bool("human") {
-				fmt.Printf("%v\t%s\n", code.FormatSize(size, true), cmd.Args().Get(0))
-				return nil
-			}
-			fmt.Printf("%vB\t%s\n", size, cmd.Args().Get(0))
+			fmt.Printf("%s\t%s\n", size, cmd.Args().Get(0))
 			return nil
 		},
 	}

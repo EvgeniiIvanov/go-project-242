@@ -6,7 +6,18 @@ import (
 	"path/filepath"
 )
 
-func GetPathSize(path string, all, recursive, human bool) (int64, error) {
+func GetPathSize(path string, all, recursive, human bool) (string, error) {
+	size, err := getSize(path, all, recursive)
+	if err != nil {
+		return "", err
+	}
+	if human {
+		return FormatSize(size), nil
+	}
+	return fmt.Sprintf("%dB", size), nil
+}
+
+func getSize(path string, all, recursive bool) (int64, error) {
 	object, err := os.Lstat(path)
 	if err != nil {
 		return 0, err
@@ -33,7 +44,7 @@ func GetPathSize(path string, all, recursive, human bool) (int64, error) {
 			continue
 		}
 		// calculate size of file/dir and add to total size
-		fileSize, err := GetPathSize(filepath.Join(path, file.Name()), all, recursive, human)
+		fileSize, err := getSize(filepath.Join(path, file.Name()), all, recursive)
 		if err != nil {
 			// return error if we can't get size even for one file in dir
 			return 0, err
@@ -41,15 +52,9 @@ func GetPathSize(path string, all, recursive, human bool) (int64, error) {
 		size += fileSize
 	}
 	return size, nil
-
 }
 
-func FormatSize(size int64, human bool) string {
-	// If human is false, return size as is
-	if !human {
-		return fmt.Sprintf("%vB", size)
-	}
-	// Else
+func FormatSize(size int64) string {
 	// Create array of prefixes
 	prefixes := []string{"", "K", "M", "G", "T", "P", "E"}
 	// Create array of sizes
