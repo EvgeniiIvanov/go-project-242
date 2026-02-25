@@ -38,9 +38,9 @@ func main() {
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			size, err := code.GetPathSize(
 				cmd.Args().Get(0),
-				cmd.Bool("all"),
 				cmd.Bool("recursive"),
 				cmd.Bool("human"),
+				cmd.Bool("all"),
 			)
 			if err != nil {
 				return err

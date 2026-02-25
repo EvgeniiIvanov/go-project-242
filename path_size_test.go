@@ -89,7 +89,7 @@ func TestGetPathSizeHiddenFile(t *testing.T) {
 func TestGetPathSizeHiddenFileAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata/.hidden.txt", true, false, false)
+	size, err := GetPathSize("./testdata/.hidden.txt", false, false, true)
 
 	a.NoError(err)
 	a.Equal("62B", size)
@@ -109,7 +109,7 @@ func TestGetPathSizeHiddenDir(t *testing.T) {
 func TestGetPathSizeHiddenDirAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata/.hidden", true, false, false)
+	size, err := GetPathSize("./testdata/.hidden", false, false, true)
 
 	a.NoError(err)
 	a.Equal("115B", size)
@@ -119,7 +119,7 @@ func TestGetPathSizeHiddenDirAll(t *testing.T) {
 func TestGetPathSizeDirRecursive(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata", false, true, false)
+	size, err := GetPathSize("./testdata", true, false, false)
 
 	a.NoError(err)
 	a.Equal("55B", size)
@@ -129,7 +129,7 @@ func TestGetPathSizeDirRecursive(t *testing.T) {
 func TestGetPathSizeDirRecursiveAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata", true, true, false)
+	size, err := GetPathSize("./testdata", true, false, true)
 
 	a.NoError(err)
 	a.Equal("232B", size)
@@ -139,7 +139,7 @@ func TestGetPathSizeDirRecursiveAll(t *testing.T) {
 func TestGetPathSizeEmptyDirRecursive(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata/empty", false, true, false)
+	size, err := GetPathSize("./testdata/empty", true, false, false)
 
 	a.NoError(err)
 	a.Equal("0B", size)
@@ -149,7 +149,7 @@ func TestGetPathSizeEmptyDirRecursive(t *testing.T) {
 func TestGetPathSizeHiddenDirRecursive(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata/.hidden", false, true, false)
+	size, err := GetPathSize("./testdata/.hidden", true, false, false)
 
 	a.NoError(err)
 	a.Equal("0B", size)
@@ -159,7 +159,7 @@ func TestGetPathSizeHiddenDirRecursive(t *testing.T) {
 func TestGetPathSizeHiddenDirRecursiveAll(t *testing.T) {
 	a := assert.New(t)
 
-	size, err := GetPathSize("./testdata/.hidden", true, true, false)
+	size, err := GetPathSize("./testdata/.hidden", true, false, true)
 
 	a.NoError(err)
 	a.Equal("115B", size)

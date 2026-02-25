@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-func GetPathSize(path string, all, recursive, human bool) (string, error) {
+func GetPathSize(path string, recursive, human, all bool) (string, error) {
 	size, err := getSize(path, all, recursive)
 	if err != nil {
 		return "", err
